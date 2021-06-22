@@ -12,8 +12,14 @@
 
 
 ##  running the application using docker
-an image for the application uploaded to docker (https://hub.docker.com/r/klli/superchat-coding-challenge)
-1- on terminal run  "docker pull klli/superchat-coding-challenge"
-2- the "docker run -i --rm -p 8083:8083 klli/superchat-coding-challenge" command
-3- test from postman
+an image for the application uploaded to docker (https://hub.docker.com/r/klli/superchat-coding-challenge)  
+1- on terminal run  
+```shell script
+ docker pull klli/superchat-coding-challenge
+```
+2- the "docker run -i --rm -p 8083:8083 klli/superchat-coding-challenge" command  
+```shell script
+ docker run -i --rm -p 8083:8083 klli/superchat-coding-challenge
+```
+3- test from postman  
 you can load it and run locally in you docker app...
