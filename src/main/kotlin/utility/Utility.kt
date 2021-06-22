@@ -25,7 +25,7 @@ object RegexMatches {
     }
 
     private fun getBitcoinStock():String {
-        val result = URL("https://api.coindesk.com/v1/bpi/currentprice/CNY.json").readText();
+        val result = URL("https://api.coindesk.com/v1/bpi/currentprice/USD.json").readText();
         val jsonData = Klaxon().parse<MarketPrice>(result)
         if (jsonData != null) {
             return jsonData.bpi.USD.rate
