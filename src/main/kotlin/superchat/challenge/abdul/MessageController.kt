@@ -10,6 +10,7 @@ import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.transaction.Transactional
+import utility.RegexMatches.processMessage
 
 @Path("/message")
 @Produces(MediaType.APPLICATION_JSON)
@@ -32,6 +33,7 @@ public class MessageController (val MsgRepository: MessageRepo,val cnvRepository
     @GET
     @Path("/{userId}")
     fun getAllConversations(@PathParam("userId") userId:Long):Response{
+        // I don't prefer using direct query in code but the ORM framework seems limited to me.
         var query = "select distinct c from Conversation c inner join Message m on c.id = m.conversation_id where c.user_id = $userId "
         return Response.ok(cnvRepository.list(query)).build()
     }
@@ -40,7 +42,7 @@ public class MessageController (val MsgRepository: MessageRepo,val cnvRepository
     @Path("/invoke")
     fun invokeServiceToSendMsg():Response{
 
-        // this URL will invoke a lambda to broadcast and event of new message and HTTP PUT with data to sendMsgViaWebhook API here
+        // this URL will invoke a lambda to broadcast an event of new message and HTTP PUT with data to sendMsgViaWebhook API here
         // but when running locally it won't trigger.
         val url = URL("https://vczf7atrjf.execute-api.ap-southeast-1.amazonaws.com/stg/webhook")
         with(url.openConnection() as HttpURLConnection) {
@@ -56,9 +58,10 @@ public class MessageController (val MsgRepository: MessageRepo,val cnvRepository
      this.saveMessage(msg);
     }
 
-
     // TODO : move it to a utility class
     private fun saveMessage(msg: MessageDto): Message {
+        var processedMsg =processMessage(msg.message)
+
         if (msg.conversation_id < 0) {
             var newConversation = Conversation(msg.sender_id, msg.receiver_id, "title");
             cnvRepository.persist(newConversation);

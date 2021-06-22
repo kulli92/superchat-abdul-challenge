@@ -74,6 +74,16 @@
       <artifactId>kotlin-stdlib-jdk8</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.jetbrains.kotlinx</groupId>
+      <artifactId>kotlinx-serialization-json-jvm</artifactId>
+      <version>1.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.beust</groupId>
+      <artifactId>klaxon</artifactId>
+      <version>5.5</version>
+    </dependency>
+    <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>kotlin-extensions</artifactId>
       <scope>test</scope>
