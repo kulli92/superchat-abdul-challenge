@@ -15,7 +15,6 @@ import javax.transaction.Transactional
 @Consumes(MediaType.APPLICATION_JSON)
 public class ContactController (val repository: ContactRepo,val usrRepository: UserRepo) {
 
-    private val contacts: ArrayList<Contact> = ArrayList();
     // retrieve user Id from session variables
     private val userId: Long = 1;
 
@@ -32,14 +31,14 @@ public class ContactController (val repository: ContactRepo,val usrRepository: U
 
 
     @GET
-    fun findAll() : Response{
-        var userContacts = usrRepository.list("user_id",userId).map{ user -> user.contact_id };
-        return  Response.ok(repository.listAll()).build() // should filter based on array above
+    fun findAll(@QueryParam("userId") userId:String) : Response{
+        var query = "select c from Contact c inner join User_contact u on c.id = u.contact_id where u.user_id = $userId"
+        return  Response.ok(repository.find(query).list()).build() // should filter based on array above
     }
 
-    @GET
-    @Path("/{contact}")
-    fun getContact(@PathParam("contact") title: String):ArrayList<Contact>{
-        return contacts;
-    }
+//    @GET
+//    @Path("/{contact}")
+//    fun getContact(@PathParam("contact") title: String){
+//        return null;
+//    }
 }

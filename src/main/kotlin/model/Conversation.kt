@@ -14,6 +14,10 @@ data class Conversation(
     @JoinColumn(name = "user_id", nullable = false,insertable= false ,updatable= false)
     private lateinit var user: Account
 
+    @ManyToOne
+    @JoinColumn(name = "contact_id", nullable = false,insertable= false ,updatable= false)
+    private lateinit var contact: Contact
+
     @OneToMany(fetch = FetchType.LAZY,mappedBy="conversation")
-    private val messages: Set<Message>? = null
+    public var messages: Set<Message>? = null
 }
