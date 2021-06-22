@@ -25,7 +25,7 @@ public class MessageController (val MsgRepository: MessageRepo,val cnvRepository
         //insert the message if sent successfully
         var savedMsg = saveMessage(msg)
         if(savedMsg.isPersistent()){
-            return Response.ok(msg).status(200).build();
+            return Response.ok().status(200).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build()
     }
@@ -34,8 +34,11 @@ public class MessageController (val MsgRepository: MessageRepo,val cnvRepository
     @Path("/{userId}")
     fun getAllConversations(@PathParam("userId") userId:Long):Response{
         // I don't prefer using direct query in code but the ORM framework seems limited to me.
-        var query = "select distinct c from Conversation c inner join Message m on c.id = m.conversation_id where c.user_id = $userId "
-        return Response.ok(cnvRepository.list(query)).build()
+        if(userId > 0){
+            var query = "select distinct c from Conversation c inner join Message m on c.id = m.conversation_id where c.user_id = $userId "
+            return Response.ok(cnvRepository.list(query)).build()
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build()
     }
 
     @GET
@@ -58,17 +61,15 @@ public class MessageController (val MsgRepository: MessageRepo,val cnvRepository
      this.saveMessage(msg);
     }
 
-    // TODO : move it to a utility class
+    // not a ideal area to be... would prefer moving to manager class if there is any
     private fun saveMessage(msg: MessageDto): Message {
-        var processedMsg =processMessage(msg.message)
-
         if (msg.conversation_id < 0) {
             var newConversation = Conversation(msg.sender_id, msg.receiver_id, "title");
             cnvRepository.persist(newConversation);
             msg.conversation_id = newConversation.id!!
         }
-
-        var savedMsg = Message(msg.conversation_id, msg.message)
+        var processedMsg =processMessage(msg.message)
+        var savedMsg = Message(msg.conversation_id, processedMsg)
         MsgRepository.persist(savedMsg)
         return savedMsg
     }

@@ -1,0 +1,103 @@
+{
+	"variables": [],
+	"info": {
+		"name": "challenge",
+		"_postman_id": "49d7c0ad-9b27-f7e1-e362-4eeb58481ac5",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "list_contacts",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8083/contact?userId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"contact"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create_contact",
+			"request": {
+				"url": "http://localhost:8083/contact",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n    \"first_name\":\"new\",\r\n    \"last_name\":\"contact\",\r\n    \"phone\":\"0947727741\",\r\n    \"is_active\":true\r\n    }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "send_message",
+			"request": {
+				"url": "http://localhost:8083/message",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sender_id\": \"1\",\n\t\"receiver_id\": \"11\",\n\t\"phone_no\": \"0125772640\",\n\t\"conversation_id\": 39,\n\t\"message\" : \"hello from the user {name} and current bitcoin pirce is {coin}\"\n\t\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "list_all_conversation",
+			"request": {
+				"url": "http://localhost:8083/message/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "invoking_remote_service_message",
+			"request": {
+				"url": "http://localhost:8083/message/invoke",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "this call will simulate a third party service sending a message to our app"
+			},
+			"response": []
+		}
+	]
+}

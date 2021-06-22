@@ -35,7 +35,7 @@ object RegexMatches {
 
     private fun getActualValue(key:String):String {
        val aliasRepo = AliasRepo()
-       return aliasRepo.find("key",key).singleResult().value
+       return aliasRepo.find("key",key.substring(1,key.length -1)).singleResult().value
     }
 }
 
