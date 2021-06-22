@@ -5,7 +5,6 @@ import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntity
 import javax.persistence.*
 import javax.persistence.JoinColumn
 
-
 @Entity
 @Table(name="User_contact")
 data class User_contact(

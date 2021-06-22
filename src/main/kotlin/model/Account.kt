@@ -3,7 +3,6 @@ package model
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntity
 import javax.persistence.*
 
-
 @Entity
 @Table(name="Account")
 data class Account(
